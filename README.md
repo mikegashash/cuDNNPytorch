@@ -41,8 +41,8 @@ flowchart LR
     I -->|Best so far| J[Checkpoint Save]
     I --> K[Early Stop Trigger]
     J --> L[Test Eval\n+ Confusion Matrix]
-
-
+```
+```mermaid
 sequenceDiagram
   participant U as User
   participant D as DataLoader

@@ -41,3 +41,29 @@ flowchart LR
     I -->|Best so far| J[Checkpoint Save]
     I --> K[Early Stop Trigger]
     J --> L[Test Eval\n+ Confusion Matrix]
+
+
+sequenceDiagram
+  participant U as User
+  participant D as DataLoader
+  participant M as Model
+  participant O as Optimizer+Scheduler
+  participant A as AMP (autocast+GradScaler)
+  participant V as Validator
+
+  U->>D: Load CIFAR-10 + Augment/Normalize
+  D->>M: Mini-batches to GPU
+  loop Each Epoch
+    M->>A: Forward pass (AMP autocast)
+    A->>M: Backward pass (scaled gradients)
+    M->>O: Optimizer + LR scheduler step
+    U->>V: Run validation set
+    V-->>U: Metrics (val_loss/acc, per-class)
+    alt Best model
+      U->>U: Save checkpoint
+    else No improvement
+      U->>U: Early stopping counter++
+    end
+  end
+  U->>M: Load best checkpoint
+  M->>U: Final test accuracy + confusion matrix

@@ -1,6 +1,6 @@
 # CIFAR-10 CUDA-Optimized Deep Learning Trainer
 
-##Executive Summary
+## Executive Summary
 Enterprises today are drowning in data, and the need for **faster, more efficient computing** is universal. This project demonstrates how to harness the **parallel power of NVIDIA GPUs** with PyTorch and CUDA to train image recognition models at scale.  
 
 Instead of CPU bottlenecks, this trainer validates the **business case for GPU acceleration**:  
@@ -12,7 +12,7 @@ Think of it as a **blueprint for scaling AI workloads**—from image classificat
 
 ---
 
-##Technical Summary
+## Technical Summary
 This repo contains a **production-minded PyTorch training pipeline** for the CIFAR-10 dataset (60,000 color images across 10 classes). It goes far beyond tutorial code:
 
 - **Model**: Compact CNN (Conv-BN-ReLU blocks + Global Average Pooling + Dropout)  
@@ -26,7 +26,7 @@ This repo contains a **production-minded PyTorch training pipeline** for the CIF
 
 ---
 
-##System Overview
+## System Overview
 
 ```mermaid
 flowchart LR

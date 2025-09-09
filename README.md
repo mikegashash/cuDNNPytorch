@@ -1,10 +1,43 @@
-# cuDNNPytorch
+# CIFAR-10 CUDA-Optimized Deep Learning Trainer
 
-Check if CUDA (GPU support) is available and set the device accordingly.
-Define a simple CNN architecture and load the CIFAR-10 dataset and apply transformations.
-Move the model to the GPU device if available and define the loss function (cross-entropy) + optimizer (SGD).
-Train the model using the training data, utilizing the GPU for acceleration and evaluate the trained model on the test set + print the accuracy.
+## 📌 Executive Summary
+Enterprises today are drowning in data, and the need for **faster, more efficient computing** is universal. This project demonstrates how to harness the **parallel power of NVIDIA GPUs** with PyTorch and CUDA to train image recognition models at scale.  
 
-Ensure you have CUDA installed and configured properly to run this code. 
+Instead of CPU bottlenecks, this trainer validates the **business case for GPU acceleration**:  
+- Faster training = faster innovation  
+- Lower hardware costs by maximizing GPU investment  
+- Built-in reproducibility and automation  
 
-Also, make sure to adjust batch sizes, learning rates, and other hyperparameters as needed for your specific task.
+Think of it as a **blueprint for scaling AI workloads**—from image classification today to more complex enterprise datasets tomorrow.
+
+---
+
+## 🔬 Technical Summary
+This repo contains a **production-minded PyTorch training pipeline** for the CIFAR-10 dataset (60,000 color images across 10 classes). It goes far beyond tutorial code:
+
+- **Model**: Compact CNN (Conv-BN-ReLU blocks + Global Average Pooling + Dropout)  
+- **Optimization**: `AdamW` optimizer + `OneCycleLR` scheduler for fast convergence  
+- **Speed**: CUDA with **AMP (mixed precision)**, **TF32** (Ampere+ GPUs), cuDNN autotuning  
+- **Data pipeline**: Augmentation (random crop/flip), pinned memory, persistent DataLoader workers  
+- **Reliability**: Validation split, early stopping, best checkpoint saving  
+- **Metrics**: Per-class accuracy and confusion matrix export  
+- **CLI**: Flexible command-line arguments for epochs, batch size, learning rate, etc.  
+- **Extensible**: Easily swap in ResNet or other backbones  
+
+---
+
+## 🖼 System Overview
+
+```mermaid
+flowchart LR
+    A[Load CIFAR-10] --> B[Augment & Normalize]
+    B --> C[DataLoader\nPinned + Workers + Prefetch]
+    C --> D[SmallNet CNN\nConv-BN-ReLU + GAP + Dropout]
+    D --> E[CrossEntropy Loss\n+ Label Smoothing]
+    E --> F[AdamW Optimizer\n+ OneCycleLR Scheduler]
+    F --> G[AMP Mixed Precision]
+    G --> H[Training Loop]
+    H --> I[Validation Loop]
+    I -->|Best so far| J[Checkpoint Save]
+    I --> K[Early Stop Trigger]
+    J --> L[Test Eval\n+ Confusion Matrix]
